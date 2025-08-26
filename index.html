@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>보살 타이쿤</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="top-bars">
+      <div class="gauge-group">
+        <div class="gauge-label">덕<span id="virtuePct">0%</span></div>
+        <div class="gauge"><div id="virtueGauge" class="fill" style="width:0%"></div></div>
+      </div>
+      <div class="gauge-group">
+        <div class="gauge-label">업보<span id="karmaPct">0%</span></div>
+        <div class="gauge negative"><div id="karmaGauge" class="fill" style="width:0%"></div></div>
+      </div>
+    </header>
+
+    <main class="stage">
+      <section class="reels">
+        <div class="reel-wrapper">
+          <div class="window">
+            <ul id="actionReel" class="reel"></ul>
+            <div class="selector" aria-hidden="true"></div>
+          </div>
+        </div>
+        <div class="reel-wrapper">
+          <div class="window">
+            <ul id="multiplierReel" class="reel"></ul>
+            <div class="selector" aria-hidden="true"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="controls">
+        <button id="spinBtn" class="btn primary">찌끄려보기</button>
+        <button id="restartBtn" class="btn secondary hidden">다시하기</button>
+      </section>
+    </main>
+
+    <div id="endingModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalMessage">
+      <div class="modal-dialog">
+        <div id="modalMessage" class="modal-message"></div>
+        <button id="modalActionBtn" class="btn primary modal-action">확인</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="fxLayer" class="fx-layer"></div>
+  <script src="./main.js"></script>
+  
+</body>
+</html>
+
+

@@ -1,0 +1,216 @@
+:root {
+  --bg: #0b0f1a;
+  --card: #121829;
+  --text: #e7ecf3;
+  --muted: #97a3b6;
+  --primary: #4f8cff;
+  --primary-2: #6ee7b7;
+  --danger: #ff6b6b;
+  --virtue: #79ffa2;
+  --karma: #ff8b8b;
+  --item-height: 55px; /* 리일 1행 높이 */
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: radial-gradient(1200px 800px at 70% 20%, #152037, var(--bg));
+  color: var(--text);
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+}
+
+#app {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px 16px 48px;
+}
+
+.top-bars {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.gauge-group { background: var(--card); border-radius: 12px; padding: 12px 14px; box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+.gauge-label { font-weight: 600; color: var(--muted); margin-bottom: 10px; display: flex; justify-content: space-between; }
+.gauge {
+  position: relative;
+  width: 100%;
+  height: 16px;
+  background: #0f1424;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.gauge.negative { background: #1e1321; }
+.gauge .fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-2)); border-radius: 999px; transition: width .5s ease; }
+.gauge.negative .fill { background: linear-gradient(90deg, #ff8b8b, #ffc46b); }
+
+.stage {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 16px;
+  padding: 22px;
+}
+
+/* stage 레이아웃은 기본 블록 사용 */
+.reels {
+  display: grid;
+  grid-template-columns: 7fr 3fr; /* 행동:배수 = 7:3 */
+  gap: 0;
+  align-items: start;
+  justify-items: stretch;
+}
+
+.reel-wrapper { width: 100%; }
+.window {
+  height: calc(var(--item-height) * 5);
+  overflow: hidden;
+  border-radius: 14px;
+  background: #0f1424;
+  border: 1px solid rgba(255,255,255,.07);
+  box-shadow: inset 0 0 0 8px rgba(255,255,255,.04), 0 16px 40px rgba(0,0,0,.35);
+  position: relative;
+}
+.window::before, .window::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 24px;
+  pointer-events: none;
+}
+.window::before { top: 0; background: linear-gradient(to bottom, rgba(0,0,0,.6), transparent); }
+.window::after { bottom: 0; background: linear-gradient(to top, rgba(0,0,0,.6), transparent); }
+
+.selector {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  top: 50%;
+  height: var(--item-height);
+  transform: translateY(-50%);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08), 0 0 0 2px rgba(79,140,255,.15);
+  pointer-events: none;
+}
+
+.reel {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  transform: translateY(0);
+  transition: transform 1.2s cubic-bezier(.13,.67,.13,.98);
+}
+.reel li {
+  height: var(--item-height);
+  display: grid;
+  align-items: center;
+  padding: 0 14px;
+  border-bottom: 1px dashed rgba(255,255,255,.08);
+  font-weight: 700;
+  text-align: center; /* 텍스트 중앙 정렬 */
+}
+.reel li[data-type="virtue"] { color: #6fffc1; }
+.reel li[data-type="karma"] { color: #ff9b9b; }
+.reel li.active { background: linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); }
+
+.reel-label { text-align: center; margin-top: 10px; color: var(--muted); font-weight: 600; }
+
+/* 모달 */
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,.6); display: grid; place-items: center; z-index: 50; }
+.modal.hidden { display: none; }
+.modal-dialog { background: var(--card); padding: 20px; border-radius: 12px; width: min(90vw, 420px); box-shadow: 0 20px 60px rgba(0,0,0,.5); text-align: center; }
+.modal-message { margin-bottom: 14px; font-weight: 700; }
+.modal-action { width: 100%; }
+
+/* FX 레이어 */
+.fx-layer { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 60; }
+.petal, .skull {
+  position: absolute;
+  will-change: transform, opacity;
+  font-size: 18px;
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,.4));
+}
+.petal { animation: petalFall 2.4s ease-in forwards; }
+.skull { animation: skullFall 2.0s ease-in forwards; }
+
+@keyframes petalBurst {
+  0% { transform: scale(.2); opacity: 0; }
+  60% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes petalFall {
+  0% { transform: translate(var(--x,0), -10vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translate(var(--x,0), 110vh) rotate(720deg); opacity: .95; }
+}
+@keyframes skullFall {
+  0% { transform: translate(var(--x,0), -10vh) scale(.9); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translate(var(--x,0), 120vh) scale(1.2); opacity: .85; }
+}
+
+/* 암전(어둠 잠식) */
+.darkness {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(1200px 800px at 50% -20%, rgba(0,0,0,0), rgba(0,0,0,.92));
+  animation: engulf 1.8s ease-in forwards;
+  z-index: 55;
+  pointer-events: none;
+}
+@keyframes engulf {
+  0% { backdrop-filter: blur(0px); opacity: 0; }
+  50% { backdrop-filter: blur(2px); opacity: .6; }
+  100% { backdrop-filter: blur(6px); opacity: 1; }
+}
+
+.controls { display: flex; gap: 12px; justify-content: center; margin-top: 18px; margin-bottom: 8px; }
+.btn { appearance: none; border: none; padding: 12px 22px; border-radius: 10px; font-weight: 700; cursor: pointer; color: #0b0f1a; }
+.btn.primary { background: linear-gradient(135deg, var(--primary), var(--primary-2)); color: #07101b; }
+.btn.secondary { background: #d7def0; }
+.btn:disabled { opacity: .6; cursor: not-allowed; }
+.hidden { display: none; }
+
+/* 버튼 상태 애니메이션 */
+.btn.primary.spinning {
+  position: relative;
+  opacity: .85;
+}
+.btn.primary.spinning::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  background: radial-gradient(120% 80% at 50% -20%, rgba(255,255,255,.22), rgba(255,255,255,0));
+  animation: pulseGlow 1.6s ease-in-out infinite;
+}
+@keyframes pulseGlow {
+  0%, 100% { opacity: .2; }
+  50% { opacity: .6; }
+}
+
+@media (max-width: 860px) {
+  .top-bars { grid-template-columns: 1fr; }
+  .reels { grid-template-columns: 7fr 3fr; gap: 8px; }
+  #app { padding: 12px 10px 16px; }
+  .stage { padding: 12px; }
+  .gauge-group { padding: 8px 10px; }
+  .gauge { height: 12px; }
+  .reel-label { margin-top: 6px; }
+  .controls { gap: 8px; margin-top: 12px; }
+  .btn { padding: 10px 14px; font-size: 14px; }
+  .messages { margin-top: 4px; }
+}
+
+/* 더 작은 모바일에서 전체가 보이도록 리일 행 높이 축소 */
+@media (max-width: 420px), (max-height: 740px) {
+  :root { --item-height: 44px; }
+  .btn { padding: 8px 12px; font-size: 13px; }
+  .gauge { height: 10px; }
+}
+
+
