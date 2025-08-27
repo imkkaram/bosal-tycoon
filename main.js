@@ -22,9 +22,9 @@ let spinSafetyTimerId = null; // transitionend 누락 대비 안전 타이머
 let multDelayTimerId = null; // 두 번째 릴 지연 타이머
 
 const virtueActions = [
-  { label: '아침 찬물 샤워', base: 8 },
+  { label: '착한 생각하기', base: 8 },
   { label: '108배', base: 12 },
-  { label: '30분 염주치기', base: 10 },
+  { label: '관세음보살 정근 듣기', base: 10 },
   { label: '채식 도시락', base: 9 },
   { label: '경전 읽기', base: 11 },
   { label: '길고양이 밥주기', base: 10 },
@@ -49,15 +49,15 @@ const virtueActions = [
   { label: '물 절약', base: 7 },
   { label: '전기 절약', base: 7 },
   { label: '동물 보호 서명', base: 8 },
-  { label: '이웃과 반찬 나눔', base: 11 },
-  { label: '직장 동료 칭찬', base: 8 },
+  { label: '쓰레기 줍기', base: 11 },
+  { label: '감사합니다 하기', base: 8 },
   { label: '칭찬 릴레이 참여', base: 9 },
 ];
 
 const karmaActions = [
   { label: '소주 먹기', base: 8 },
   { label: '강원랜드 가기', base: 15 },
-  { label: '치맥 먹기', base: 10 },
+  { label: '나쁜 생각하기', base: 10 },
   { label: '개미 밟기', base: 7 },
   { label: '욕설하기', base: 9 },
   { label: '음주가무', base: 12 },
@@ -69,7 +69,7 @@ const karmaActions = [
   { label: '지각하기', base: 7 },
   { label: '뒷담화하기', base: 9 },
   { label: '게임에서 욕설', base: 8 },
-  { label: '야식 폭식', base: 8 },
+  { label: '때리기', base: 8 },
   { label: '무단주차', base: 12 },
   { label: '층간소음 유발', base: 11 },
   { label: '담배꽁초 투기', base: 10 },
@@ -77,14 +77,14 @@ const karmaActions = [
   { label: '노약자석 점유', base: 11 },
   { label: '길막하기', base: 7 },
   { label: '인터넷 악플', base: 12 },
-  { label: '약속 파기', base: 10 },
+  { label: '이간질하기', base: 10 },
   { label: '반려견 배변 방치', base: 11 },
   { label: '자연 훼손', base: 12 },
   { label: '재촉하며 끼어들기', base: 8 },
   { label: '거짓말하기', base: 9 },
   { label: '허세부리기', base: 7 },
   { label: '사소한 약속 무시', base: 8 },
-  { label: '도박 과소비', base: 13 },
+  { label: '삥뜯기', base: 13 },
 ];
 
 const multipliers = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6];
@@ -129,11 +129,11 @@ function setGauge(target, pctEl, value) {
 
 function applyEndingIfAny() {
   if (virtue >= 100) {
-    showEndingModal('덕업일치를 달성하여 보살이 되었습니다✨', '환생하기');
+    showEndingModal('보살로 2차 전직하셨습니다 ✨', '극락가기');
     return true;
   }
   if (karma >= 100) {
-    showEndingModal('인간말종이 되었습니다💀', '서울역으로 가기');
+    showEndingModal('업보빔을 맞으셨습니다 😭', '환생하기');
     return true;
   }
   return false;
